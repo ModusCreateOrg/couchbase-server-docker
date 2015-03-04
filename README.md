@@ -1,7 +1,7 @@
 couchbase-server-docker
 =======================
 
-Getting, this is currently not being built. So you will need to clone the repo
+This image is currenlty not auto-built, so you will need to clone the repo
 to use the image.
 
 To build the docker image, move into the directory of the version you would like
