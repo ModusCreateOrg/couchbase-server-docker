@@ -1,9 +1,42 @@
-[![Join the chat at https://gitter.im/tleyden/couchbase-cluster-go](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/tleyden/couchbase-cluster-go?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+couchbase-server-docker
+=======================
 
-Run Couchbase Server under Docker + CoreOS.
+Getting, this is currently not being built. So you will need to clone the repo
+to use the image.
 
-## Instructions 
+To build the docker image, move into the directory of the version you would like
+to build and issue the docker build command. For example to build 3.0.1:
 
-* [Couchbase Server](http://tleyden.github.io/blog/2014/11/01/running-couchbase-cluster-under-coreos-on-aws/)
+```bash
+$ cd 3.0.1
+$ docker build -t moduscreate/couchbase:3.0.1 .
+```
 
-* [Couchbase Server + Sync Gateway](http://tleyden.github.io/blog/2014/12/15/running-a-sync-gateway-cluster-under-coreos-on-aws/)
+To create a container.
+
+```bash
+$ docker run -d -p 8091:8091 --name couchbase moduscreate/couchbase:3.0.1
+```
+
+This will expose the web interface on the docker host, this isn't necessary, but
+helpful during development.
+
+To link to another container, modify your application code to use environment
+variables, by default docker creates environment variables in your container
+with the name of the linked container and their port number. So if you linked
+this couchbase container with your application like:
+
+```bash
+$ docker run -d -p 8080:8080 --name my-app --link couchbase:couchbase
+moduscreate/best-app-ever:latest
+```
+
+The ports for couchbase would be exposed to your app as:
+
+```bash
+COUCHBASE_PORT_8091_TCP_PORT
+COUCHBASE_PORT_8091_TCP_ADDR
+```
+
+You can use this to construct your connection string.
+
